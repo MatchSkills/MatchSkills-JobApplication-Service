@@ -5,6 +5,9 @@ import com.matchskills.jobapplication.service.dtos.*;
 import com.matchskills.jobapplication.service.entitys.JobapplicationEntity;
 import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.CandidateAlreadyAppliedException;
 import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.JobApplicationNotFoundException;
+import com.matchskills.jobapplication.service.exceptions.customs.jobposting.JobPostingNotFoundException;
+import com.matchskills.jobapplication.service.exceptions.customs.jobposting.NotJobPostingOwnerException;
+import com.matchskills.jobapplication.service.jwt.JwtService;
 import com.matchskills.jobapplication.service.repositorys.JobapplicationRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,16 +22,19 @@ public class JobapplicationService {
     final private String jobpostingUrl;
     final private RestClient restClient;
     final private MatchSkillsService matchSkillsService;
+    final private JwtService jwtService;
 
 
     public JobapplicationService(JobapplicationRepository repository,
                                  @Value("${jobposting.url}") String jobpostingUrl,
                                  RestClient restClient,
-                                 MatchSkillsService matchSkillsService) {
+                                 MatchSkillsService matchSkillsService,
+                                 JwtService jwtService) {
         this.repository = repository;
         this.jobpostingUrl = jobpostingUrl;
         this.restClient = restClient;
         this.matchSkillsService = matchSkillsService;
+        this.jwtService = jwtService;
     }
 
     public JobApplicationResponse createJobApplication(CreateJobapplicationRequest createJobapplicationRequest) {
@@ -66,12 +72,28 @@ public class JobapplicationService {
 
     }
 
-    public List<MatchSkillsResponse> getResultsByJobpostingId(Long jobpostingId) {
+    public List<MatchSkillsResponse> getResultsByJobpostingId(Long jobpostingId, String token) {
 
-        var jobposting = restClient.get()
-                .uri(jobpostingUrl+"/"+jobpostingId)
-                .retrieve()
-                .body(JobPostingResponse.class);
+        JobPostingResponse jobposting;
+
+        try {
+            jobposting = restClient.get()
+                    .uri(jobpostingUrl + "/" + jobpostingId)
+                    .retrieve()
+                    .body(JobPostingResponse.class);
+        } catch (Exception e){
+
+            throw new JobPostingNotFoundException();
+
+        }
+
+        token = jwtService.getToken(token);
+
+        var decodedToken = jwtService.decodeToken(token);
+
+        if (!jobposting.getCompanyId().equals(decodedToken.getUserId())){
+            throw new NotJobPostingOwnerException();
+        }
 
         var targetSoftskills = jobposting.getTargetSoftskills();
         var targetHardskills = jobposting.getTargetHardskills();

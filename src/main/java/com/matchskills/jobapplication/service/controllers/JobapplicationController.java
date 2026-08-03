@@ -35,8 +35,8 @@ public class JobapplicationController {
 
     @PreAuthorize("hasRole('Company')")
     @GetMapping("/jobposting/{id}")
-    public ResponseEntity<List<MatchSkillsResponse>> getMatchSkills(@PathVariable Long id){
-        return  ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.getResultsByJobpostingId(id));
+    public ResponseEntity<List<MatchSkillsResponse>> getMatchSkills(@PathVariable Long id, @RequestHeader("Authorization") String accesstoken){
+        return  ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.getResultsByJobpostingId(id, accesstoken));
     }
 
 }
