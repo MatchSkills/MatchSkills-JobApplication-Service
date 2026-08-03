@@ -21,7 +21,7 @@ public class CreateJobapplicationRequest {
     private Long candidateId;
 
     @NotBlank
-    private Long candidateName;
+    private String candidateName;
 
     @NotNull
     private List<String> hardskills;

@@ -41,6 +41,7 @@ public class JobapplicationService {
 
         var newApplication = JobapplicationEntity.builder()
                 .candidateId(createJobapplicationRequest.getCandidateId())
+                .candidateName(createJobapplicationRequest.getCandidateName())
                 .jobpostingId(createJobapplicationRequest.getJobpostingId())
                 .hardskills(createJobapplicationRequest.getHardskills())
                 .build();
