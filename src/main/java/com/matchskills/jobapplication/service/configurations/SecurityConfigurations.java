@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/jobposting/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

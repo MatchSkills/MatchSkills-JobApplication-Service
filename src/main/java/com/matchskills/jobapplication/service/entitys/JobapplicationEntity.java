@@ -1,5 +1,6 @@
 package com.matchskills.jobapplication.service.entitys;
 
+import com.matchskills.jobapplication.service.domains.JobapplicationDomain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,6 +25,7 @@ public class JobapplicationEntity {
     private Long id;
     private Long jobpostingId;
     private Long candidateId;
+    private String candidateName;
     private List<String> hardskills;
 
     @Column(columnDefinition = "json")
@@ -33,6 +35,10 @@ public class JobapplicationEntity {
     @CreationTimestamp
     @Column(name = "create_at", updatable = false)
     private LocalDate createAt;
+
+    public JobapplicationDomain toJobapplicationDomain(){
+        return new JobapplicationDomain(this.id, this.jobpostingId, this.candidateId, this.candidateName, this.hardskills, this.softskills, this.createAt);
+    }
 
 
 }
