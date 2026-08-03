@@ -32,7 +32,7 @@ public class JobapplicationService {
         this.matchSkillsService = matchSkillsService;
     }
 
-    public void createJobApplication(CreateJobapplicationRequest createJobapplicationRequest) {
+    public JobApplicationResponse createJobApplication(CreateJobapplicationRequest createJobapplicationRequest) {
 
         var exists = repository.existsByJobpostingIdAndCandidateId(createJobapplicationRequest.getJobpostingId(), createJobapplicationRequest.getCandidateId());
 
@@ -46,11 +46,13 @@ public class JobapplicationService {
                 .hardskills(createJobapplicationRequest.getHardskills())
                 .build();
 
-        var applicationSaved = repository.save(newApplication);
+        var savedApplication = repository.save(newApplication);
+
+        return savedApplication.toJobapplicationDomain().toJobApplicationResponse();
 
     }
 
-    public void updateSoftSkills(EditSoftSkillsRequest editSoftSkillsRequest) {
+    public JobApplicationResponse updateSoftSkills(EditSoftSkillsRequest editSoftSkillsRequest) {
 
         var targetApplication = repository.findById(editSoftSkillsRequest.getId())
                 .orElseThrow(JobApplicationNotFoundException::new);
@@ -58,6 +60,9 @@ public class JobapplicationService {
         targetApplication.setSoftskills(editSoftSkillsRequest.getSoftskills());
 
         var savedApplication = repository.save(targetApplication);
+
+        return savedApplication.toJobapplicationDomain().toJobApplicationResponse();
+
 
     }
 

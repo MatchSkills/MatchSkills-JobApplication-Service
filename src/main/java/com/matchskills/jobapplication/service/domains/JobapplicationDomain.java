@@ -1,5 +1,7 @@
 package com.matchskills.jobapplication.service.domains;
 
+import com.matchskills.jobapplication.service.dtos.JobApplicationResponse;
+import com.matchskills.jobapplication.service.dtos.JobPostingResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,9 +23,12 @@ public class JobapplicationDomain {
     private Map<String, Integer> softskills;
     private LocalDate createAt;
 
-        public ApplicationDomain toApplicationDomain(){
+    public ApplicationDomain toApplicationDomain(){
         return new ApplicationDomain(this.candidateName, this.softskills, this.hardskills);
     }
 
+    public JobApplicationResponse toJobApplicationResponse(){
+        return new JobApplicationResponse(this.id,this.jobpostingId,this.candidateId,this.candidateName,this.hardskills,this.softskills,this.createAt);
+    }
 
 }

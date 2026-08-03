@@ -2,6 +2,7 @@ package com.matchskills.jobapplication.service.controllers;
 
 import com.matchskills.jobapplication.service.dtos.CreateJobapplicationRequest;
 import com.matchskills.jobapplication.service.dtos.EditSoftSkillsRequest;
+import com.matchskills.jobapplication.service.dtos.JobApplicationResponse;
 import com.matchskills.jobapplication.service.dtos.MatchSkillsResponse;
 import com.matchskills.jobapplication.service.services.JobapplicationService;
 import org.springframework.http.HttpStatus;
@@ -23,19 +24,13 @@ public class JobapplicationController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('Candidate')")
-    public ResponseEntity<Void> createJobaplication(CreateJobapplicationRequest createJobapplicationRequest){
-        jobapplicationService.createJobApplication(createJobapplicationRequest);
-
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<JobApplicationResponse> createJobaplication(CreateJobapplicationRequest createJobapplicationRequest){
+        return ResponseEntity.status(HttpStatus.CREATED).body(jobapplicationService.createJobApplication(createJobapplicationRequest));
     }
 
     @PutMapping("/edit-softskills")
-    public ResponseEntity<Void> editSoftSkills(EditSoftSkillsRequest editSoftSkillsRequest){
-
-        jobapplicationService.updateSoftSkills(editSoftSkillsRequest);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<JobApplicationResponse> editSoftSkills(EditSoftSkillsRequest editSoftSkillsRequest){
+        return ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.updateSoftSkills(editSoftSkillsRequest));
     }
 
     @PreAuthorize("hasRole('Company')")
