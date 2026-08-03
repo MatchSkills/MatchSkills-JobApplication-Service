@@ -1,6 +1,5 @@
 package com.matchskills.jobapplication.service.services;
 
-import com.matchskills.jobapplication.service.domains.ApplicationDomain;
 import com.matchskills.jobapplication.service.domains.JobapplicationDomain;
 import com.matchskills.jobapplication.service.dtos.*;
 import com.matchskills.jobapplication.service.entitys.JobapplicationEntity;

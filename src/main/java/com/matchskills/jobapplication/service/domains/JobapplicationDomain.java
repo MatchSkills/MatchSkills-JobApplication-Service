@@ -1,7 +1,6 @@
 package com.matchskills.jobapplication.service.domains;
 
 import com.matchskills.jobapplication.service.dtos.JobApplicationResponse;
-import com.matchskills.jobapplication.service.dtos.JobPostingResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
