@@ -20,19 +20,17 @@ public class JobapplicationService {
 
     final private JobapplicationRepository repository;
     final private String jobpostingUrl;
-    final private RestClient restClient;
+    final private RestClient restClient = RestClient.builder().build();
     final private MatchSkillsService matchSkillsService;
     final private JwtService jwtService;
 
 
     public JobapplicationService(JobapplicationRepository repository,
                                  @Value("${jobposting.url}") String jobpostingUrl,
-                                 RestClient restClient,
                                  MatchSkillsService matchSkillsService,
                                  JwtService jwtService) {
         this.repository = repository;
         this.jobpostingUrl = jobpostingUrl;
-        this.restClient = restClient;
         this.matchSkillsService = matchSkillsService;
         this.jwtService = jwtService;
     }

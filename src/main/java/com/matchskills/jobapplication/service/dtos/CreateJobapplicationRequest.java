@@ -26,8 +26,5 @@ public class CreateJobapplicationRequest {
     @NotNull
     private List<String> hardskills;
 
-    @NotNull
-    private Map<String, Integer> softskills;
-
 
 }
