@@ -1,13 +1,13 @@
-package com.matchskills.interview.service.jwt;
+package com.matchskills.jobapplication.service.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.matchskills.interview.service.domains.TokenDecoded;
-import com.matchskills.interview.service.exceptions.customs.token.TokenExpiredException;
-import com.matchskills.interview.service.exceptions.customs.token.TokenInvalidException;
+import com.matchskills.jobapplication.service.domains.TokenDecoded;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenExpiredException;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenInvalidException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

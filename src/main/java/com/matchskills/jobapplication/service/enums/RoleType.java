@@ -1,4 +1,4 @@
-package com.matchskills.interview.service.enums;
+package com.matchskills.jobapplication.service.enums;
 
 public enum RoleType {
     Company, Candidate

@@ -1,11 +1,11 @@
-package com.matchskills.interview.service.exceptions.handlers;
+package com.matchskills.jobapplication.service.exceptions.handlers;
 
 
-import com.matchskills.interview.service.exceptions.CustomErrorResponse;
-import com.matchskills.interview.service.exceptions.customs.token.TokenExpiredException;
-import com.matchskills.interview.service.exceptions.customs.token.TokenInBlackListException;
-import com.matchskills.interview.service.exceptions.customs.token.TokenInvalidException;
-import com.matchskills.interview.service.exceptions.customs.token.TokenInvalidTypeException;
+import com.matchskills.jobapplication.service.exceptions.CustomErrorResponse;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenExpiredException;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenInBlackListException;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenInvalidException;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenInvalidTypeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

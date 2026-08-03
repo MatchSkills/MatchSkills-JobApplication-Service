@@ -1,7 +1,7 @@
-package com.matchskills.interview.service.exceptions.handlers;
+package com.matchskills.jobapplication.service.exceptions.handlers;
 
-import com.matchskills.interview.service.exceptions.CustomErrorResponse;
-import com.matchskills.interview.service.exceptions.ValidationErrorResponse;
+import com.matchskills.jobapplication.service.exceptions.CustomErrorResponse;
+import com.matchskills.jobapplication.service.exceptions.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

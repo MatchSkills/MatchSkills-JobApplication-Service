@@ -1,4 +1,4 @@
-package com.matchskills.interview.service.domains;
+package com.matchskills.jobapplication.service.domains;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

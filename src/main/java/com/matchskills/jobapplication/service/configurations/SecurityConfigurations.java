@@ -1,4 +1,4 @@
-package com.matchskills.interview.service.configurations;
+package com.matchskills.jobapplication.service.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

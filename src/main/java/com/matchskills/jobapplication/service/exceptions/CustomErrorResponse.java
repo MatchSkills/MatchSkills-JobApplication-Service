@@ -1,4 +1,4 @@
-package com.matchskills.interview.service.exceptions;
+package com.matchskills.jobapplication.service.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

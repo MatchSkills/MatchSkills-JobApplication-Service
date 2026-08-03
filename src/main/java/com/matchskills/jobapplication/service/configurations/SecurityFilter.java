@@ -1,11 +1,11 @@
-package com.matchskills.interview.service.configurations;
+package com.matchskills.jobapplication.service.configurations;
 
-import com.matchskills.interview.service.enums.RoleType;
-import com.matchskills.interview.service.exceptions.customs.token.TokenExpiredException;
-import com.matchskills.interview.service.exceptions.customs.token.TokenInBlackListException;
-import com.matchskills.interview.service.exceptions.customs.token.TokenInvalidTypeException;
-import com.matchskills.interview.service.jwt.JwtService;
-import com.matchskills.interview.service.services.RedisBlackListService;
+import com.matchskills.jobapplication.service.enums.RoleType;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenExpiredException;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenInBlackListException;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenInvalidTypeException;
+import com.matchskills.jobapplication.service.jwt.JwtService;
+import com.matchskills.jobapplication.service.services.RedisBlackListService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

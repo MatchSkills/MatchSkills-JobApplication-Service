@@ -1,6 +1,6 @@
-package com.matchskills.interview.service.services;
+package com.matchskills.jobapplication.service.services;
 
-import com.matchskills.interview.service.exceptions.customs.token.TokenInBlackListException;
+import com.matchskills.jobapplication.service.exceptions.customs.token.TokenInBlackListException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
