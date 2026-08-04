@@ -6,6 +6,7 @@ CREATE TABLE jobapplication(
     candidate_name VARCHAR(100) NOT NULL,
     hardskills varchar(255) ARRAY,
     softskills JSON,
+    curriculum_path VARCHAR(255),
     create_at DATE DEFAULT CURRENT_DATE
 
 );

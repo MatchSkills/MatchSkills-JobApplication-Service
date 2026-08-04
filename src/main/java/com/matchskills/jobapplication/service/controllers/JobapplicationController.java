@@ -24,12 +24,12 @@ public class JobapplicationController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('Candidate')")
-    public ResponseEntity<JobApplicationResponse> createJobaplication(CreateJobapplicationRequest createJobapplicationRequest){
+    public ResponseEntity<JobApplicationResponse> createJobaplication(@RequestBody CreateJobapplicationRequest createJobapplicationRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(jobapplicationService.createJobApplication(createJobapplicationRequest));
     }
 
     @PutMapping("/edit-softskills")
-    public ResponseEntity<JobApplicationResponse> editSoftSkills(EditSoftSkillsRequest editSoftSkillsRequest){
+    public ResponseEntity<JobApplicationResponse> editSoftSkills(@RequestBody EditSoftSkillsRequest editSoftSkillsRequest){
         return ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.updateSoftSkills(editSoftSkillsRequest));
     }
 
@@ -38,5 +38,7 @@ public class JobapplicationController {
     public ResponseEntity<List<MatchSkillsResponse>> getMatchSkills(@PathVariable Long id, @RequestHeader("Authorization") String accesstoken){
         return  ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.getResultsByJobpostingId(id, accesstoken));
     }
+
+
 
 }

@@ -36,6 +36,8 @@ public class JobapplicationEntity {
     @Column(name = "create_at", updatable = false)
     private LocalDate createAt;
 
+    private String curriculumPath;
+
     public JobapplicationDomain toJobapplicationDomain(){
         return new JobapplicationDomain(this.id, this.jobpostingId, this.candidateId, this.candidateName, this.hardskills, this.softskills, this.createAt);
     }
