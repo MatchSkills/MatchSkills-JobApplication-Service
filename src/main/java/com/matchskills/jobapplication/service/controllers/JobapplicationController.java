@@ -29,6 +29,7 @@ public class JobapplicationController {
     }
 
     @PutMapping("/edit-softskills")
+    @PreAuthorize("hasRole('System')")
     public ResponseEntity<JobApplicationResponse> editSoftSkills(@RequestBody EditSoftSkillsRequest editSoftSkillsRequest){
         return ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.updateSoftSkills(editSoftSkillsRequest));
     }

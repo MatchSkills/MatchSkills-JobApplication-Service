@@ -62,6 +62,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 
                 }
 
+                if (decodedToken.getRole().equals(RoleType.System.name())){
+
+                    var user = new UsernamePasswordAuthenticationToken(decodedToken.getUserId(), null, List.of(new SimpleGrantedAuthority("ROLE_" + RoleType.System.name())));
+
+                    SecurityContextHolder.getContext().setAuthentication(user);
+
+                }
+
             }
 
             filterChain.doFilter(request, response);
