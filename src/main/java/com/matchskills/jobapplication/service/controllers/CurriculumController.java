@@ -1,11 +1,14 @@
 package com.matchskills.jobapplication.service.controllers;
 
+import com.matchskills.jobapplication.service.dtos.ExtractHardskillsRequest;
+import com.matchskills.jobapplication.service.dtos.ExtractHardskillsResponse;
 import com.matchskills.jobapplication.service.services.CurriculumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -15,14 +18,14 @@ public class CurriculumController {
 
     private final CurriculumService service;
 
+
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         value = "/job-application/{jobApplicationId}" )
-    public ResponseEntity<Void> upload(@PathVariable Long jobApplicationId,
+    public ResponseEntity<ExtractHardskillsResponse> upload(@PathVariable Long jobApplicationId,
                                        @RequestParam MultipartFile file) {
-        service.upload(file, jobApplicationId);
 
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).body(service.upload(file, jobApplicationId));
     }
 
     @GetMapping("/{id}")
