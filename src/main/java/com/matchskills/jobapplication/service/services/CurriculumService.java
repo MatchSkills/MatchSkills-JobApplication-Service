@@ -3,6 +3,7 @@ package com.matchskills.jobapplication.service.services;
 import com.matchskills.jobapplication.service.dtos.ExtractHardskillsRequest;
 import com.matchskills.jobapplication.service.dtos.ExtractHardskillsResponse;
 import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.JobApplicationNotFoundException;
+import com.matchskills.jobapplication.service.jwt.InternalTokenProvider;
 import com.matchskills.jobapplication.service.repositorys.JobapplicationRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,16 @@ public class CurriculumService {
     private final JobapplicationRepository repository;
     private final RestClient restClient = RestClient.create();
     private final String iaServiceUrl;
+    private final InternalTokenProvider internalTokenProvider;
 
-    public  CurriculumService(SupabaseStorageService storageService, JobapplicationRepository repository, @Value("${ia.url}") String iaServiceUrl) {
+    public  CurriculumService(SupabaseStorageService storageService,
+                              JobapplicationRepository repository,
+                              @Value("${ia.url}") String iaServiceUrl,
+                              InternalTokenProvider internalTokenProvider) {
         this.storageService = storageService;
         this.repository = repository;
         this.iaServiceUrl = iaServiceUrl;
+        this.internalTokenProvider = internalTokenProvider;
     }
 
     public ExtractHardskillsResponse upload(MultipartFile file, Long jobapplicationId) {
@@ -36,8 +42,11 @@ public class CurriculumService {
 
         repository.save(targetJobaplication);
 
+        String internalToken = internalTokenProvider.generate("candidatura-service");
+
         return restClient.post()
                 .uri(iaServiceUrl + "/extract-hardskills")
+                .header("X-Internal-Token", internalToken)
                 .body(new ExtractHardskillsRequest(url))
                 .retrieve()
                 .body(ExtractHardskillsResponse.class);
