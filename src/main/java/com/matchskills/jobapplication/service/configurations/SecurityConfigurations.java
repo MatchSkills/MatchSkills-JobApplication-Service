@@ -23,9 +23,11 @@ import java.util.List;
 public class SecurityConfigurations {
 
     final private SecurityFilter securityFilter;
+    final private InternalAuthFilter internalAuthFilter;
 
-    public SecurityConfigurations(SecurityFilter securityFilter){
+    public SecurityConfigurations(SecurityFilter securityFilter, InternalAuthFilter internalAuthFilter){
         this.securityFilter = securityFilter;
+        this.internalAuthFilter = internalAuthFilter;
     }
 
     @Bean
@@ -45,6 +47,7 @@ public class SecurityConfigurations {
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(internalAuthFilter, securityFilter.getClass())
                 .build();
 
     }
