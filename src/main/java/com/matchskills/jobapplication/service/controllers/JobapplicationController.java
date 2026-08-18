@@ -6,9 +6,11 @@ import com.matchskills.jobapplication.service.dtos.JobApplicationResponse;
 import com.matchskills.jobapplication.service.dtos.MatchSkillsResponse;
 import com.matchskills.jobapplication.service.services.JobapplicationService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,15 +24,22 @@ public class JobapplicationController {
         this.jobapplicationService = jobapplicationService;
     }
 
-    @PostMapping("/create")
+    @PostMapping(
+            value = "/create",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('Candidate')")
-    public ResponseEntity<JobApplicationResponse> createJobaplication(@RequestBody CreateJobapplicationRequest createJobapplicationRequest){
-        return ResponseEntity.status(HttpStatus.CREATED).body(jobapplicationService.createJobApplication(createJobapplicationRequest));
+    public ResponseEntity<JobApplicationResponse> createJobaplication(
+            @RequestPart("curriculum") MultipartFile curriculum,
+            @RequestPart("data") CreateJobapplicationRequest createJobapplicationRequest
+    ){
+        return ResponseEntity.status(HttpStatus.CREATED).body(jobapplicationService.createJobApplication(createJobapplicationRequest, curriculum));
     }
 
     @PutMapping("/edit-softskills")
     @PreAuthorize("hasRole('System')")
-    public ResponseEntity<JobApplicationResponse> editSoftSkills(@RequestBody EditSoftSkillsRequest editSoftSkillsRequest){
+    public ResponseEntity<JobApplicationResponse> editSoftSkills(
+            @RequestPart("curriculum") MultipartFile curriculum,
+            @RequestPart("data") EditSoftSkillsRequest editSoftSkillsRequest){
         return ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.updateSoftSkills(editSoftSkillsRequest));
     }
 

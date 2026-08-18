@@ -12,6 +12,7 @@ import com.matchskills.jobapplication.service.repositorys.JobapplicationReposito
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class JobapplicationService {
 
     final private JobapplicationRepository repository;
+    final private CurriculumService curriculumService;
     final private String jobpostingUrl;
     final private RestClient restClient = RestClient.builder().build();
     final private MatchSkillsService matchSkillsService;
@@ -28,14 +30,16 @@ public class JobapplicationService {
     public JobapplicationService(JobapplicationRepository repository,
                                  @Value("${jobposting.url}") String jobpostingUrl,
                                  MatchSkillsService matchSkillsService,
-                                 JwtService jwtService) {
+                                 JwtService jwtService,
+                                 CurriculumService curriculumService) {
         this.repository = repository;
         this.jobpostingUrl = jobpostingUrl;
         this.matchSkillsService = matchSkillsService;
         this.jwtService = jwtService;
+        this.curriculumService = curriculumService;
     }
 
-    public JobApplicationResponse createJobApplication(CreateJobapplicationRequest createJobapplicationRequest) {
+    public JobApplicationResponse createJobApplication(CreateJobapplicationRequest createJobapplicationRequest, MultipartFile curriculum) {
 
         var exists = repository.existsByJobpostingIdAndCandidateId(createJobapplicationRequest.getJobpostingId(), createJobapplicationRequest.getCandidateId());
 
@@ -51,6 +55,8 @@ public class JobapplicationService {
                 .build();
 
         var savedApplication = repository.save(newApplication);
+
+        curriculumService.upload(curriculum, savedApplication.getJobpostingId());
 
         return savedApplication.toJobapplicationDomain().toJobApplicationResponse();
 
