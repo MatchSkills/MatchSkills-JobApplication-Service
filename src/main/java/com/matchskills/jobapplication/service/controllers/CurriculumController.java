@@ -20,10 +20,12 @@ public class CurriculumController {
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         value = "/job-application/{jobApplicationId}" )
-    public ResponseEntity<ExtractHardskillsResponse> upload(@PathVariable Long jobApplicationId,
+    public ResponseEntity<Void> upload(@PathVariable Long jobApplicationId,
                                        @RequestParam MultipartFile file) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(service.upload(file, jobApplicationId));
+        service.upload(file, jobApplicationId);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/{id}")

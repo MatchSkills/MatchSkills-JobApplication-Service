@@ -6,6 +6,7 @@ import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.
 import com.matchskills.jobapplication.service.jwt.InternalTokenProvider;
 import com.matchskills.jobapplication.service.repositorys.JobapplicationRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +30,8 @@ public class CurriculumService {
         this.internalTokenProvider = internalTokenProvider;
     }
 
-    public ExtractHardskillsResponse upload(MultipartFile file, Long jobapplicationId) {
+    @Async
+    public void upload(MultipartFile file, Long jobapplicationId) {
 
         var targetJobaplication = repository.findById(jobapplicationId)
                 .orElseThrow(JobApplicationNotFoundException::new);
@@ -40,16 +42,19 @@ public class CurriculumService {
 
         var url = storageService.generateSignedUrl(storagePath);
 
-        repository.save(targetJobaplication);
-
         String internalToken = internalTokenProvider.generate("candidatura-service");
 
-        return restClient.post()
+        var hardskills =  restClient.post()
                 .uri(iaServiceUrl + "/extract-hardskills")
                 .header("X-Internal-Token", internalToken)
                 .body(new ExtractHardskillsRequest(url))
                 .retrieve()
                 .body(ExtractHardskillsResponse.class);
+
+        targetJobaplication.setHardskills(hardskills.getHardskills());
+
+        repository.save(targetJobaplication);
+
     }
 
     public String getResumeUrl(Long id) {
