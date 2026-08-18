@@ -8,15 +8,21 @@
 
 ### Only with Candidate Role
 
+Content-Type expected: `multipart/form-data`
+
 Request body expected:
 
    ```
-   {
-    "jobpostingId": Long
-    "candidateId": Long
-    "candidateName": String
-    "hardskills": List<String>
-    }
+       {
+       "curriculum": File
+       "data": 
+           {
+              "jobpostingId": Long
+              "candidateId": Long
+              "candidateName": String
+              "hardskills": List<String>
+            }
+        }
    ```
 
 Response body expected:
