@@ -1,5 +1,6 @@
 package com.matchskills.jobapplication.service.services;
 
+import com.matchskills.jobapplication.service.domains.CurriculumDomain;
 import com.matchskills.jobapplication.service.dtos.ExtractHardskillsRequest;
 import com.matchskills.jobapplication.service.dtos.ExtractHardskillsResponse;
 import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.JobApplicationNotFoundException;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CurriculumService {
@@ -31,12 +31,12 @@ public class CurriculumService {
     }
 
     @Async
-    public void upload(MultipartFile file, Long jobapplicationId) {
+    public void upload(CurriculumDomain curriculumDomain, Long jobapplicationId) {
 
         var targetJobaplication = repository.findById(jobapplicationId)
                 .orElseThrow(JobApplicationNotFoundException::new);
 
-        var storagePath = storageService.upload(file, jobapplicationId);
+        var storagePath = storageService.upload(curriculumDomain, jobapplicationId);
 
         targetJobaplication.setCurriculumPath(storagePath);
 

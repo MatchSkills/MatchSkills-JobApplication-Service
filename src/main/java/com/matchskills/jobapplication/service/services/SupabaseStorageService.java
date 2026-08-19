@@ -1,12 +1,11 @@
 package com.matchskills.jobapplication.service.services;
 
+import com.matchskills.jobapplication.service.domains.CurriculumDomain;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,40 +23,35 @@ public class SupabaseStorageService{
 
     private final RestClient client = RestClient.create();
 
-    public String upload(MultipartFile file, Long jobapplicationId) {
+    public String upload(CurriculumDomain curriculumDomain, Long jobapplicationId) {
 
-        try {
+        String extension = "";
 
-            String extension = "";
+        if (curriculumDomain.getFilename() != null &&
+                curriculumDomain.getFilename().contains(".")) {
 
-            if (file.getOriginalFilename() != null &&
-                    file.getOriginalFilename().contains(".")) {
-
-                extension = file.getOriginalFilename()
-                        .substring(file.getOriginalFilename().lastIndexOf("."));
-            }
-
-            String fileUrl =
-                    "jobapplication/" +
-                    jobapplicationId +
-                    "/" +
-                    UUID.randomUUID() +
-                    extension;
-
-            client.post()
-                    .uri(url + "/storage/v1/object/" + bucket + "/" + fileUrl)
-                    .header("apikey", key)
-                    .header("Authorization", "Bearer " + key)
-                    .contentType(MediaType.parseMediaType(file.getContentType()))
-                    .body(file.getBytes())
-                    .retrieve()
-                    .toBodilessEntity();
-
-            return fileUrl;
-
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao enviar arquivo.", e);
+            extension = curriculumDomain.getFilename()
+                    .substring(curriculumDomain.getFilename().lastIndexOf("."));
         }
+
+        String fileUrl =
+                "jobapplication/" +
+                jobapplicationId +
+                "/" +
+                UUID.randomUUID() +
+                extension;
+
+        client.post()
+                .uri(url + "/storage/v1/object/" + bucket + "/" + fileUrl)
+                .header("apikey", key)
+                .header("Authorization", "Bearer " + key)
+                .contentType(MediaType.parseMediaType(curriculumDomain.getContentType()))
+                .body(curriculumDomain.getFile())
+                .retrieve()
+                .toBodilessEntity();
+
+        return fileUrl;
+
     }
 
     public String generateSignedUrl(String path) {

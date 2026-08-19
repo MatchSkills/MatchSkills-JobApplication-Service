@@ -1,5 +1,6 @@
 package com.matchskills.jobapplication.service.services;
 
+import com.matchskills.jobapplication.service.domains.CurriculumDomain;
 import com.matchskills.jobapplication.service.domains.JobapplicationDomain;
 import com.matchskills.jobapplication.service.dtos.*;
 import com.matchskills.jobapplication.service.entitys.JobapplicationEntity;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -39,7 +41,7 @@ public class JobapplicationService {
         this.curriculumService = curriculumService;
     }
 
-    public JobApplicationResponse createJobApplication(CreateJobapplicationRequest createJobapplicationRequest, MultipartFile curriculum) {
+    public JobApplicationResponse createJobApplication(CreateJobapplicationRequest createJobapplicationRequest, MultipartFile curriculumFile) throws IOException {
 
         var exists = repository.existsByJobpostingIdAndCandidateId(createJobapplicationRequest.getJobpostingId(), createJobapplicationRequest.getCandidateId());
 
@@ -56,7 +58,13 @@ public class JobapplicationService {
 
         var savedApplication = repository.save(newApplication);
 
-        curriculumService.upload(curriculum, savedApplication.getJobpostingId());
+        byte[] file = curriculumFile.getBytes();
+        String filename = curriculumFile.getOriginalFilename();
+        String contentType = curriculumFile.getContentType();
+
+        var curriculum = new CurriculumDomain(file, filename, contentType);
+
+        curriculumService.upload(curriculum, savedApplication.getId());
 
         return savedApplication.toJobapplicationDomain().toJobApplicationResponse();
 
