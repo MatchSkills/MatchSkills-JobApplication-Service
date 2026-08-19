@@ -6,6 +6,7 @@ import com.matchskills.jobapplication.service.dtos.*;
 import com.matchskills.jobapplication.service.entitys.JobapplicationEntity;
 import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.CandidateAlreadyAppliedException;
 import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.JobApplicationNotFoundException;
+import com.matchskills.jobapplication.service.exceptions.customs.jobapplication.NotJobApplicationOwnerException;
 import com.matchskills.jobapplication.service.exceptions.customs.jobposting.JobPostingNotFoundException;
 import com.matchskills.jobapplication.service.exceptions.customs.jobposting.NotJobPostingOwnerException;
 import com.matchskills.jobapplication.service.jwt.JwtService;
@@ -120,4 +121,22 @@ public class JobapplicationService {
 
     }
 
+    public List<JobApplicationResponse> getAllApplicationsByCandidate(Long id, String token){
+
+        token = jwtService.getToken(token);
+
+        var tokenDecoded = jwtService.decodeToken(token);
+
+        if (!id.equals(tokenDecoded.getUserId())) {
+            throw new NotJobApplicationOwnerException();
+        }
+
+        var list = repository.findAllByCandidateId(id);
+
+        return list.stream()
+                .map(JobapplicationEntity::toJobapplicationDomain)
+                .map(JobapplicationDomain::toJobApplicationResponse)
+                .toList();
+
+    }
 }

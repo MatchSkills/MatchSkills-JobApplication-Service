@@ -48,6 +48,10 @@ public class JobapplicationController {
         return  ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.getResultsByJobpostingId(id, accesstoken));
     }
 
-
+    @GetMapping("/candidate/{id}")
+    @PreAuthorize("hasRole('Candidate')")
+    public ResponseEntity<List<JobApplicationResponse>> getApplicationsByCandidate(@PathVariable Long id, @RequestHeader("Authorization") String accesstoken){
+        return ResponseEntity.status(HttpStatus.OK).body(jobapplicationService.getAllApplicationsByCandidate(id, accesstoken));
+    }
 
 }
