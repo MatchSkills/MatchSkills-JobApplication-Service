@@ -23,7 +23,7 @@ public class SupabaseStorageService{
 
     private final RestClient client = RestClient.create();
 
-    public String upload(CurriculumDomain curriculumDomain, Long jobapplicationId) {
+    public String upload(CurriculumDomain curriculumDomain, Long jobapplicationId, Long jobpostingId) {
 
         String extension = "";
 
@@ -35,6 +35,9 @@ public class SupabaseStorageService{
         }
 
         String fileUrl =
+                "jobposting/" +
+                jobpostingId +
+                "/" +
                 "jobapplication/" +
                 jobapplicationId +
                 "/" +

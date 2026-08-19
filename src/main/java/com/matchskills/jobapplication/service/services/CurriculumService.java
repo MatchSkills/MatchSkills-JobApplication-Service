@@ -40,7 +40,7 @@ public class CurriculumService {
                 .orElseThrow(JobApplicationNotFoundException::new);
 
         log.atInfo().log("dando upload do arquivo");
-        var storagePath = storageService.upload(curriculumDomain, jobapplicationId);
+        var storagePath = storageService.upload(curriculumDomain, jobapplicationId, targetJobaplication.getJobpostingId());
         log.atInfo().log("feito");
 
         log.atInfo().log("guardando nome do arquivo");
