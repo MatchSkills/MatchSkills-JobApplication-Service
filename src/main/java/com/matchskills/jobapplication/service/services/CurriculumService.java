@@ -58,7 +58,7 @@ public class CurriculumService {
         log.atInfo().log("enviando para ia");
 
         var hardskills =  restClient.post()
-                .uri("http://localhost:8080/ai/extract-hardskills")
+                .uri(iaServiceUrl+"/ai/extract-hardskills")
                 .header("X-Internal-Token", internalToken)
                 .body(new ExtractHardskillsRequest(url))
                 .retrieve()
