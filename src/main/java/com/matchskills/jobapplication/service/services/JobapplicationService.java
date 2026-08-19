@@ -90,7 +90,7 @@ public class JobapplicationService {
 
         try {
             jobposting = restClient.get()
-                    .uri(jobpostingUrl + "/" + jobpostingId)
+                    .uri(jobpostingUrl + "/jobs/" + jobpostingId)
                     .retrieve()
                     .body(JobPostingResponse.class);
         } catch (Exception e){
